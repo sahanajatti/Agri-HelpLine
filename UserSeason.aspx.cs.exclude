@@ -1,0 +1,115 @@
+using System;
+using System.Data;
+using System.Data.SqlClient ;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Text;
+using BalFarming;
+public partial class UserSeason : System.Web.UI.Page
+{
+    BalSeason Objpal = new BalSeason();
+
+    DataSet ds;
+
+    private bool isEditMode = false;
+
+    /// <summary>
+    /// This Property Is
+    /// </summary>
+    protected bool IsInEditMode
+    {
+
+        get { return this.isEditMode; }
+
+        set { this.isEditMode = value; }
+
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Objpal.BSessionName = txtSname.Text;
+        if (!IsPostBack)
+        {
+            try
+            {
+                
+                FillGrid();
+            }
+            catch (Exception ex)
+            {
+                Response.Redirect("ErrorPage.aspx?Error=" + ex.Message);
+            }
+        }
+    }
+    protected void BtnSubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Objpal.InsertSeason(Objpal.BSessionName);
+            FillGrid();
+        }
+        catch (Exception ex)
+        {
+            Response.Redirect("ErrorPage.aspx?Error=" + ex.Message);
+        }
+
+    }
+
+    public void FillGrid()
+    {
+        ds = Objpal.Fillgrid();
+        GrdSeason.DataSource = ds;
+        GrdSeason.DataBind();
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        isEditMode = true;
+        FillGrid();
+        BtnUpdate.Visible = true;
+        Button1.Visible = false; 
+    }
+    private void Update()
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (GridViewRow Gr in GrdSeason.Rows)
+        {
+            sb.Append("UPDATE Season SET SeasonName = '");
+
+            sb.Append((Gr.FindControl("txtSessionName") as TextBox).Text);
+            sb.Append("'");
+
+            sb.Append("where Season_Id=");
+
+            sb.Append((Gr.FindControl("LblSessionId") as Label).Text);
+            sb.Append("");
+        }
+            string connectionString = ConfigurationManager.AppSettings["con"];  
+
+            SqlConnection myConnection = new SqlConnection(connectionString);
+
+            SqlCommand myCommand = new SqlCommand(sb.ToString(), myConnection);
+
+            myConnection.Open();
+
+            myCommand.ExecuteNonQuery();
+
+            myConnection.Close(); 
+            FillGrid ();
+        
+           
+        
+    
+    }
+    protected void BtnUpdate_Click(object sender, EventArgs e)
+    {
+        Update();
+        BtnUpdate.Visible = false;
+        Button1.Visible = true ; 
+    }
+}

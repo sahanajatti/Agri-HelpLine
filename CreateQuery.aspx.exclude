@@ -1,0 +1,43 @@
+<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CreateQuery.aspx.cs" Inherits="CreateQuery" Title="Untitled Page" %>
+
+
+   
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <div style="text-align: center">
+        <table>
+            <tr>
+                <td colspan="3">
+                    <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100px; height: 40px;">
+                    <asp:Label ID="Label1" runat="server" Font-Bold="True" Font-Size="Medium" ForeColor="Blue"
+                        Text="QueryDesc"></asp:Label></td>
+                <td style="width: 12px; height: 40px;">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Enter Desc" ControlToValidate="TxtDesc">*</asp:RequiredFieldValidator></td>
+                <td style="width: 69px; height: 40px;">
+                    <asp:TextBox ID="TxtDesc" runat="server" TextMode="MultiLine" Height="136px"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td style="width: 100px; height: 21px;">
+                    <asp:Label ID="Label2" runat="server" Font-Bold="True" Font-Size="Medium" ForeColor="Blue"
+                        Text="UserName"></asp:Label></td>
+                <td style="width: 12px; height: 21px;">
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="DdlUserName"
+                        ErrorMessage="Select The User" InitialValue="Select User Name..">*</asp:RequiredFieldValidator></td>
+                <td style="width: 69px; height: 21px;">
+                    <asp:DropDownList ID="DdlUserName" runat="server">
+                    </asp:DropDownList>
+                    <ajaxcontrolToolkit:DropDownExtender ID="DropDownExtender1" runat="server" TargetControlID="DdlUserName">
+                    </ajaxcontrolToolkit:DropDownExtender>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <asp:Button ID="BtnSubmit" runat="server" Text="Submit" OnClick="BtnSubmit_Click" /></td>
+            </tr>
+        </table>
+    </div>
+</asp:Content>
+

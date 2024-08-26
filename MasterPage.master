@@ -1,0 +1,33 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>MainPage</title>
+</head>
+<body bgcolor="teal">
+    <form id="form1" runat="server">
+        <div>
+            <table width="100%">
+                <tr>
+                    <td colspan="2" >
+                        <img src="Images/agrihelpline.jpg" style="width: 971px; height: 123px" /></td>
+                    
+                  
+                </tr>
+                <tr>
+                 <td>
+                        <asp:LinkButton ID="Signout" runat="server"  Text="Signout" OnClick="Signout_Click" Visible="False" CausesValidation="False"></asp:LinkButton>  
+                        <asp:ScriptManager ID="ScriptManager1" runat="server">
+                        </asp:ScriptManager>
+                    </td>
+                
+                </tr>
+            </table>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                <center>
+                </center>
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,57 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using BalFarming;
+
+public partial class CreateQuery : System.Web.UI.Page
+{
+    BalEvents_Files FillDrop = new BalEvents_Files();
+    string _Squery = string.Empty;
+    BalCreateQuery CreatingQuery = new BalCreateQuery();
+    DataSet ds;
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!IsPostBack)
+            {
+               // _Squery = "select User_Name,User_Id from User_Profiles ";
+                _Squery = "SELECT   User_Profiles.User_id,  User_Profiles.User_Name, Users.User_Role FROM User_Profiles INNER JOIN Users ON User_Profiles.User_id = Users.User_Id  Where  User_Role='Farmer'";   
+                ds = FillDrop.FillDropdown(_Squery);
+                DdlUserName.DataSource = ds;
+                DdlUserName.DataTextField = "User_Name";
+                DdlUserName.DataValueField = "User_Id";
+                DdlUserName.DataBind();
+                DdlUserName.Items.Insert(0, "Select User Name..");
+            }
+        }
+        catch (Exception ex)
+        {
+            Response.Redirect("ErrorPage.aspx?Error=" + ex.Message);
+        }
+
+
+    }
+    protected void BtnSubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            CreatingQuery.BQueryDesc = TxtDesc.Text;
+            CreatingQuery.BUserId = Convert.ToInt32(DdlUserName.SelectedItem.Value);
+            CreatingQuery.CreateQuery();
+
+        }
+        catch (Exception ex)
+        {
+            Response.Redirect("ErrorPage.aspx?Error=" + ex.Message);
+        }
+    }
+}
